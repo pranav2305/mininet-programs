@@ -61,10 +61,10 @@ class SimpleTopology(Topo):
         s2 = self.addSwitch("s2")
         s3 = self.addSwitch("s3")
 
-        h1 = self.addHost("h1")
-        h2 = self.addHost("h2")
-        h3 = self.addHost("h3")
-        h4 = self.addHost("h4")
+        h1 = self.addHost("h1", ip="10.0.0.1")
+        h2 = self.addHost("h2", ip="10.0.0.2")
+        h3 = self.addHost("h3", ip="10.0.0.3")
+        h4 = self.addHost("h4", ip="10.0.0.4")
 
         self.addLink(s1, h1, bw=args.bw, loss=args.loss, delay=args.delay)
         self.addLink(s1, h2, bw=args.bw, loss=args.loss, delay=args.delay)
@@ -79,32 +79,24 @@ def startNetwork():
     "Creates and starts the network"
 
     global net
-    cwd = os.getcwd()
     info(" *** Creating Overlay Network Topology ***\n")
 
     # Create the topology object
     topo = SimpleTopology()
-    ctl_ip, ctl_port = "127.0.0.1", 5001
+    ctl_ip, ctl_port = "127.0.0.1", None
     c1 = RemoteController("c1", ip=ctl_ip, port=ctl_port)
     net = Mininet(topo=topo, link=TCLink, controller=c1, autoSetMacs=True)
+    net.build()
+    c1.start()
     net.start()
     info("*** Running CLI ***\n")
     CLI(net)
-
-
-# Stop network functions
-def stopNetwork():
-    "Stops the network"
-    if net is not None:
-        info("*** Tearing down overlay network ***\n")
-        net.stop()
-        subprocess.run(["mn", "-c"])
+    info("*** Stopping network ***\n")
+    net.stop()
 
 
 # If run as a script
 if __name__ == "__main__":
-    # Force cleanup on exit by registering a cleanup function
-    atexit.register(stopNetwork)
     # Print useful informations
     setLogLevel("info")
     # Start network
