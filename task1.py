@@ -59,9 +59,6 @@ class SimpleTopology(Topo):
 
         # Initialize object argument
         super(SimpleTopology, self).__init__(*opts)
-        self.k = args.nodes
-        self.switch_list = []
-
         s1 = self.addSwitch("s1")
         s2 = self.addSwitch("s2")
         s3 = self.addSwitch("s3")
@@ -87,37 +84,13 @@ def startNetwork():
 
     cwd = os.getcwd()
 
-    if args.ryu:
-        subprocess.run([f"{cwd}/start_ryu.sh"])
-
     info(" *** Creating Overlay Network Topology ***\n")
     # Create the topology object
     topo = SimpleTopology()
-    # Create and start the network
-    # Create the controller
-    if args.ctl:
-        ctl_ip, ctl_port = args.ctl.split(":")
-        ctl_port = int(ctl_port)
-        info(ctl_ip, ctl_port)
-    else:
-        ctl_ip, ctl_port = "127.0.0.1", None
+    ctl_ip, ctl_port = "127.0.0.1", None
     c1 = RemoteController("c1", ip=ctl_ip, port=ctl_port)
     net = Mininet(topo=topo, link=TCLink, controller=c1, autoSetMacs=True)
     net.start()
-    # Add the external host ports to the edge bridges
-    bridge_commands = [f"{cwd}/bridge_mn.sh"]
-    if args.random:
-        stp = args.nodes
-    else:
-        stp = 0
-    bridge_commands.append(str(stp))
-    ans = input("Connect external ifaces? (Y/n) > ")
-    port1, port2 = "0", "0"
-    if ans != "n":
-        port1 = input("Interface 1 name: ")
-        port2 = input("Interface 2 name: ")
-        bridge_commands += [port1, port2]
-    subprocess.run(bridge_commands)
     info("*** Running CLI ***\n")
     CLI(net)
 
