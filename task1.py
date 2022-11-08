@@ -83,8 +83,8 @@ def startNetwork():
 
     # Create the topology object
     topo = SimpleTopology()
-    c1 = topo.addController("c1")
-    net = Mininet(topo=topo, link=TCLink, controller=c1, autoSetMacs=True)
+    net = Mininet(topo=topo, link=TCLink, controller=Controller, autoSetMacs=True)
+    net.addController("c0")
     net.start()
     info("*** Running CLI ***\n")
     CLI(net)
