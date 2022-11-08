@@ -11,7 +11,7 @@ from mininet.net import Mininet
 from mininet.link import TCLink
 from mininet.log import setLogLevel, info, debug
 from mininet.cli import CLI
-from mininet.node import RemoteController
+from mininet.node import RemoteController, Controller
 from mininet.util import irange
 
 # Create the argparser
@@ -83,10 +83,8 @@ def startNetwork():
 
     # Create the topology object
     topo = SimpleTopology()
-    ctl_ip, ctl_port = "127.0.0.1", None
-    c1 = RemoteController("c1", ip=ctl_ip, port=ctl_port)
+    c1 = topo.addController("c1")
     net = Mininet(topo=topo, link=TCLink, controller=c1, autoSetMacs=True)
-    c1.start()
     net.start()
     info("*** Running CLI ***\n")
     CLI(net)
