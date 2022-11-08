@@ -50,8 +50,6 @@ args = parser.parse_args()
 net = None
 
 # Define the topology class
-
-
 class SimpleTopology(Topo):
     """Simple Mininet Topology"""
 
@@ -81,13 +79,12 @@ def startNetwork():
     "Creates and starts the network"
 
     global net
-
     cwd = os.getcwd()
-
     info(" *** Creating Overlay Network Topology ***\n")
+
     # Create the topology object
     topo = SimpleTopology()
-    ctl_ip, ctl_port = "127.0.0.1", None
+    ctl_ip, ctl_port = "127.0.0.1", 5001
     c1 = RemoteController("c1", ip=ctl_ip, port=ctl_port)
     net = Mininet(topo=topo, link=TCLink, controller=c1, autoSetMacs=True)
     net.start()
@@ -98,7 +95,6 @@ def startNetwork():
 # Stop network functions
 def stopNetwork():
     "Stops the network"
-
     if net is not None:
         info("*** Tearing down overlay network ***\n")
         net.stop()
