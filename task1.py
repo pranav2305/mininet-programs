@@ -52,12 +52,12 @@ def startNetwork():
     s2 = net.addSwitch("s2")
     s3 = net.addSwitch("s3")
 
-    net.addLink(s1, h1, bw=args.bw + "Mbps", loss=args.loss + "%", delay=args.delay + "ms")
-    net.addLink(s1, h2, bw=args.bw + "Mbps", loss=args.loss + "%", delay=args.delay + "ms")
-    net.addLink(s2, h3, bw=args.bw + "Mbps", loss=args.loss + "%", delay=args.delay + "ms")
-    net.addLink(s2, h4, bw=args.bw + "Mbps", loss=args.loss + "%", delay=args.delay + "ms")
-    net.addLink(s3, s1, bw=args.bw + "Mbps", loss=args.loss + "%", delay=args.delay + "ms")
-    net.addLink(s3, s2, bw=args.bw + "Mbps", loss=args.loss + "%", delay=args.delay + "ms")
+    net.addLink(s1, h1, bw=str(args.bw) + "Mbps", loss=str(args.loss) + "%", delay=str(args.delay) + "ms")
+    net.addLink(s1, h2, bw=str(args.bw) + "Mbps", loss=str(args.loss) + "%", delay=str(args.delay) + "ms")
+    net.addLink(s2, h3, bw=str(args.bw) + "Mbps", loss=str(args.loss) + "%", delay=str(args.delay) + "ms")
+    net.addLink(s2, h4, bw=str(args.bw) + "Mbps", loss=str(args.loss) + "%", delay=str(args.delay) + "ms")
+    net.addLink(s3, s1, bw=str(args.bw) + "Mbps", loss=str(args.loss) + "%", delay=str(args.delay) + "ms")
+    net.addLink(s3, s2, bw=str(args.bw) + "Mbps", loss=str(args.loss) + "%", delay=str(args.delay) + "ms")
 
     net.build()
     c0.start()
