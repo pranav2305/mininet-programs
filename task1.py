@@ -1,18 +1,10 @@
-import atexit
 import argparse
-import logging
-import subprocess
-import os
-import random
 
 # Import Mininet classes
-from mininet.topo import Topo
 from mininet.net import Mininet
-from mininet.link import TCLink
 from mininet.log import setLogLevel, info, debug
 from mininet.cli import CLI
-from mininet.node import RemoteController, Controller
-from mininet.util import irange
+from mininet.node import Controller
 
 # Create the argparser
 parser = argparse.ArgumentParser(description="Mininet WAN Emulator")
@@ -46,45 +38,29 @@ parser.add_argument(
 
 args = parser.parse_args()
 
-# Global vars
-net = None
-
-# Define the topology class
-class SimpleTopology(Topo):
-    """Simple Mininet Topology"""
-
-    def __init__(self, **opts):
-
-        # Initialize object argument
-        super(SimpleTopology, self).__init__(*opts)
-        s1 = self.addSwitch("s1")
-        s2 = self.addSwitch("s2")
-        s3 = self.addSwitch("s3")
-
-        h1 = self.addHost("h1", ip="10.0.0.1")
-        h2 = self.addHost("h2", ip="10.0.0.2")
-        h3 = self.addHost("h3", ip="10.0.0.3")
-        h4 = self.addHost("h4", ip="10.0.0.4")
-
-        self.addLink(s1, h1, bw=args.bw, loss=args.loss, delay=args.delay)
-        self.addLink(s1, h2, bw=args.bw, loss=args.loss, delay=args.delay)
-        self.addLink(s2, h3, bw=args.bw, loss=args.loss, delay=args.delay)
-        self.addLink(s2, h4, bw=args.bw, loss=args.loss, delay=args.delay)
-        self.addLink(s3, s1, bw=args.bw, loss=args.loss, delay=args.delay)
-        self.addLink(s3, s2, bw=args.bw, loss=args.loss, delay=args.delay)
-
-
 # Start network functions
 def startNetwork():
     "Creates and starts the network"
+    net = Mininet(controller=Controller, waitConnected=True)
+    c0 = net.addController("c0")
+    h1 = net.addHost("h1", ip="10.0.0.1")
+    h2 = net.addHost("h2", ip="10.0.0.2")
+    h3 = net.addHost("h3", ip="10.0.0.3")
+    h4 = net.addHost("h4", ip="10.0.0.4")
 
-    global net
-    info(" *** Creating Overlay Network Topology ***\n")
+    s1 = net.addSwitch("s1")
+    s2 = net.addSwitch("s2")
+    s3 = net.addSwitch("s3")
 
-    # Create the topology object
-    topo = SimpleTopology()
-    net = Mininet(topo=topo, link=TCLink, controller=Controller, autoSetMacs=True)
-    net.addController("c0")
+    net.addLink(s1, h1, bw=args.bw, loss=args.loss, delay=args.delay)
+    net.addLink(s1, h2, bw=args.bw, loss=args.loss, delay=args.delay)
+    net.addLink(s2, h3, bw=args.bw, loss=args.loss, delay=args.delay)
+    net.addLink(s2, h4, bw=args.bw, loss=args.loss, delay=args.delay)
+    net.addLink(s3, s1, bw=args.bw, loss=args.loss, delay=args.delay)
+    net.addLink(s3, s2, bw=args.bw, loss=args.loss, delay=args.delay)
+
+    net.build()
+    c0.start()
     net.start()
     info("*** Running CLI ***\n")
     CLI(net)
