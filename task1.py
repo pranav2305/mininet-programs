@@ -86,7 +86,6 @@ def startNetwork():
     ctl_ip, ctl_port = "127.0.0.1", None
     c1 = RemoteController("c1", ip=ctl_ip, port=ctl_port)
     net = Mininet(topo=topo, link=TCLink, controller=c1, autoSetMacs=True)
-    net.build()
     c1.start()
     net.start()
     info("*** Running CLI ***\n")
