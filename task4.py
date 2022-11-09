@@ -8,6 +8,7 @@ from mininet.node import Controller
 def startNetwork():
     "Creates and starts the network"
     net = Mininet(controller=Controller, waitConnected=True)
+    c0 = net.addController("c0")
     h1 = net.addHost("h1", ip="10.0.0.1")
     h2 = net.addHost("h2", ip="10.0.0.2")
 
@@ -21,6 +22,7 @@ def startNetwork():
     net.addLink(s3, h2 , intfName1 = "s3-eth1", intfName2 = "h2-eth0")
 
     net.build()
+    c0.start()
     net.start()
     info("*** Running CLI ***\n")
     CLI(net)
