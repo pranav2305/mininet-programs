@@ -7,7 +7,7 @@ if [ $# -ne 1 ]; then
 	echo "***************************************"
 fi
 
-preprocessor.sh $1 .
+./preprocessor.sh $1 .
 
 if [ $? -ne 0 ]; then
 	exit 1
