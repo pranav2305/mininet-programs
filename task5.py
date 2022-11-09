@@ -23,7 +23,7 @@ def startNetwork():
     net.addLink(s2, s3 , intfName1 = "s2-eth2", intfName2 = "s3-eth1")
 
 
-    net.addLink(s1, h1 , intfName1 = "s1-eth1", intfName2 = "h1-eth0")
+    net.addLink(s1, h1 , intfName1 = "s1-eth2", intfName2 = "h1-eth0")
     net.addLink(s1, h2 , intfName1 = "s1-eth3", intfName2 = "h2-eth0")
     net.addLink(s3, h3 , intfName1 = "s3-eth2", intfName2 = "h3-eth0")
     net.addLink(s3, h4 , intfName1 = "s3-eth3", intfName2 = "h4-eth0")
