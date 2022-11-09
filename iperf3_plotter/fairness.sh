@@ -18,7 +18,7 @@ echo "-----------------------------------------------------------------"
 
 
 if [ $# -eq 1 ]; then
-	preprocessor.sh $1 .
+	./preprocessor.sh $1 .
 	if [ $? -ne 0 ]; then
 		exit 1
 	fi
@@ -36,7 +36,7 @@ else
 	do
 		mkdir "res_$file" && cp $file "res_$file"
 	       	cd "res_$file"
-		preprocessor.sh $file .
+		./preprocessor.sh $file .
 		cp results/1.dat ../$outer_dir/"$file.dat"
 		cd ..
 		rm -rf "res_$file"
