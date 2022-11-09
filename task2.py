@@ -17,11 +17,11 @@ def startNetwork():
     s1 = net.addSwitch("s1")
     s2 = net.addSwitch("s2")
 
-    net.addLink(s1, h1)
-    net.addLink(s1, h3)
-    net.addLink(s2, h2)
-    net.addLink(s2, h4)
-    net.addLink(s1, s2)
+    net.addLink(s1, h1, intfName1="s1-eth3", intfName2="h1-eth0")
+    net.addLink(s1, h3, intfName1="s1-eth2", intfName2="h3-eth0")
+    net.addLink(s2, h2, intfName1="s2-eth2", intfName2="h2-eth0")
+    net.addLink(s2, h4, intfName1="s2-eth3", intfName2="h4-eth0")
+    net.addLink(s1, s2, intfName1="s1-eth1", intfName2="s2-eth1")
 
     net.build()
     c0.start()
