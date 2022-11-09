@@ -15,7 +15,7 @@ x = []
 for entry in data['intervals']:
     
     
-    datapoint = entry['streams'][i]
+    datapoint = entry['streams'][0]
     time  = i
     bts = datapoint["snd_cwnd"]
     y.append(bts)
